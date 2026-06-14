@@ -54,15 +54,21 @@ async function resetAll() {
   setStatus("CAPTCHA sẵn sàng.", "blue");
 }
 
-window.onload = async () => {
-  clearCanvasOnly(); // Chỉ clear canvas khi load, KHÔNG gọi resetCanvas() (vốn sinh hình ngẫu nhiên)
+async function initApp() {
+  const slider = document.getElementById("captchaSlider");
+  if (slider) slider.value = "0";
+
+  clearCanvasOnly(); // Chỉ clear canvas khi load
   initPuzzleEvents();
   initCanvasEvents();
 
-  await initSession(); // initSession sẽ gọi drawServerPoints với điểm từ server
+  await initSession(); // initSession sẽ gọi drawServerPoints
 
   document.getElementById("submitBtn").addEventListener("click", submitCaptcha);
   document.getElementById("resetBtn").addEventListener("click", resetAll);
 
   setStatus("CAPTCHA sẵn sàng.", "blue");
-};
+}
+
+// Khởi chạy ngay lập tức vì script được import động sau khi DOM đã load
+initApp();
