@@ -1,0 +1,317 @@
+:root {
+    --card-width: min(92vw, 420px);
+    --puzzle-width: min(100%, 360px);
+    --puzzle-height: 180px;
+    --piece-size: 56px;
+    --radius: 12px;
+    --primary: #00d4ff;
+    --primary-light: #00e5ff;
+    --secondary: #0099ff;
+    --tertiary: #6366f1;
+    --accent: #06b6d4;
+    --text: #0f172a;
+    --text-secondary: #475569;
+    --bg: #f0f9ff;
+    --bg-secondary: #fff;
+    --border: #cffafe;
+    --success: #06b6d4;
+    --error: #0ea5e9;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+    color: var(--text);
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #0c4a6e 50%, #082f49 75%, #0e1e3f 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.captcha-card {
+    width: var(--card-width);
+    background: linear-gradient(135deg, rgba(248, 250, 252, 0.98) 0%, rgba(240, 249, 255, 0.95) 100%);
+    border-radius: 20px;
+    border: 2px solid rgba(6, 182, 212, 0.3);
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.3), 0 0 40px rgba(0, 212, 255, 0.1);
+    padding: 32px 20px;
+    backdrop-filter: blur(10px);
+}
+
+h1 {
+    margin: 0 0 8px;
+    font-size: clamp(1.5rem, 3vw, 1.8rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, #0099ff 0%, #00d4ff 50%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+h2 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.subtitle,
+.help-text {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin: 24px 0 14px;
+    padding: 12px 0;
+    border-bottom: 2px solid #cffafe;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+    padding: 8px 14px;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #0099ff 0%, #00d4ff 100%);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+
+.puzzle-container {
+    --container-width: min(100%, 360px);
+    position: relative;
+    width: var(--container-width);
+    height: var(--puzzle-height);
+    margin: 0 auto;
+    background: linear-gradient(135deg, #082f49 0%, #0c4a6e 50%, #0e7490 100%);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid rgba(0, 212, 255, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.25);
+}
+
+#bg-image,
+#puzzle-piece {
+    background-image: url('https://picsum.photos/640/360?grayscale');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#bg-image {
+    width: 100%;
+    height: 100%;
+    opacity: 0.85;
+}
+
+#target-hole {
+    position: absolute;
+    width: var(--piece-size);
+    height: var(--piece-size);
+    border-radius: 12px;
+    background: rgba(15, 23, 42, 0.5);
+    box-shadow: inset 0 0 0 3px rgba(0, 212, 255, 0.8), 0 0 25px rgba(0, 212, 255, 0.6);
+    z-index: 2;
+    animation: pulseHole 2s ease-in-out infinite;
+}
+
+@keyframes pulseHole {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+#puzzle-piece {
+    position: absolute;
+    width: var(--piece-size);
+    height: var(--piece-size);
+    border-radius: 12px;
+    border: 3px solid #fff;
+    background: linear-gradient(135deg, rgba(0, 153, 255, 0.9), rgba(0, 212, 255, 0.9));
+    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.6), 0 0 15px rgba(6, 182, 212, 0.4);
+    z-index: 3;
+    touch-action: none;
+    left: 0;
+    transition: box-shadow 0.3s ease;
+}
+
+#puzzle-piece:hover {
+    box-shadow: 0 12px 35px rgba(0, 212, 255, 0.8), 0 0 25px rgba(6, 182, 212, 0.6);
+}
+
+.slider-box,
+.canvas-box {
+    margin-top: 18px;
+}
+
+.slider-box label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 12px;
+    font-size: 0.98rem;
+    color: #0f172a;
+}
+
+#captchaSlider {
+    width: 100%;
+    cursor: pointer;
+    accent-color: #00d4ff;
+    height: 6px;
+    border-radius: 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    background: linear-gradient(90deg, #0099ff 0%, #00d4ff 50%, #06b6d4 100%);
+}
+
+#captchaSlider::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0099ff 0%, #00d4ff 100%);
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 212, 255, 0.5);
+}
+
+#captchaSlider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0099ff 0%, #00d4ff 100%);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 212, 255, 0.5);
+}
+
+#drawCanvas {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border: 2px solid #cffafe;
+    border-radius: 14px;
+    cursor: crosshair;
+    touch-action: none;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.15);
+}
+
+.canvas-actions,
+.actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+button {
+    border: 0;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#submitBtn {
+    background: linear-gradient(135deg, #0099ff 0%, #00d4ff 100%);
+    color: white;
+    flex: 1;
+    min-width: 100px;
+    box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+}
+
+#submitBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0, 212, 255, 0.5);
+}
+
+#submitBtn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+}
+
+.secondary {
+    background: linear-gradient(135deg, #cffafe 0%, #e0f2fe 100%);
+    color: #0c4a6e;
+    flex: 1;
+    min-width: 100px;
+    font-weight: 700;
+}
+
+.secondary:hover {
+    background: linear-gradient(135deg, #a5f3fc 0%, #bae6fd 100%);
+    transform: translateY(-2px);
+}
+
+#status-msg {
+    margin-top: 18px;
+    min-height: 28px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: rgba(0, 212, 255, 0.08);
+}
+
+#status-msg.success {
+    color: #0891b2;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, rgba(6, 182, 212, 0.06) 100%);
+}
+
+#status-msg.error {
+    color: #0284c7;
+    background: linear-gradient(135deg, rgba(2, 132, 199, 0.15) 0%, rgba(2, 132, 199, 0.05) 100%);
+}
+
+hr {
+    margin: 20px 0;
+    border: 0;
+    border-top: 2px solid #cffafe;
+    background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+}
+
+@media (max-width: 480px) {
+    .captcha-card {
+        padding: 20px 16px;
+        border-radius: 16px;
+    }
+
+    :root {
+        --puzzle-height: 160px;
+        --piece-size: 50px;
+    }
+
+    button {
+        width: 100%;
+    }
+}
