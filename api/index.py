@@ -285,7 +285,7 @@ def init_captcha():
         "ip":            ip,
     }
 
-    return jsonify({
+    response = jsonify({
         "token":        token,
         "target_x":     target_x,
         "target_y":     target_y,
@@ -293,6 +293,10 @@ def init_captcha():
         "canvasWidth":  CANVAS_W,
         "canvasHeight": CANVAS_H,
     })
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 
 @app.route("/api/captcha/verify", methods=["POST"])

@@ -7,7 +7,7 @@ import { initCanvasEvents, clearCanvasOnly, drawServerPoints } from "./canvas.js
 
 async function initSession() {
   try {
-    const res = await fetch(CONFIG.initUrl);
+    const res = await fetch(`${CONFIG.initUrl}?t=${Date.now()}`, { cache: "no-store" });
     const data = await res.json();
     state.token = data.token;
     resetPuzzle(data.target_x, data.target_y);
