@@ -6,9 +6,13 @@ import time
 import hashlib
 import json
 import math
-from scoring_logic import BehaviorScorer
-import sys, os
+import os
+import sys
+
+# Đảm bảo Python luôn tìm thấy các file trong cùng thư mục (giải quyết lỗi trên Vercel)
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+from scoring_logic import BehaviorScorer
 app = Flask(__name__)
 
 # ─── FIX #1: Giới hạn CORS theo origin thay vì mở toàn bộ ───────────────────
@@ -384,7 +388,7 @@ if __name__ == "__main__":
     
     @app.route('/')
     def serve_root():
-        return send_from_directory(BASE_DIR, 'login.html')
+        return send_from_directory(BASE_DIR, 'index.html')
 
     @app.route('/<path:path>')
     def serve_static(path):
