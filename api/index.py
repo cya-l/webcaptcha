@@ -7,7 +7,8 @@ import hashlib
 import json
 import math
 from scoring_logic import BehaviorScorer
-
+import sys, os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 app = Flask(__name__)
 
 # ─── FIX #1: Giới hạn CORS theo origin thay vì mở toàn bộ ───────────────────
